@@ -18,7 +18,7 @@
  *
  */
 function getCurrentFunctionName() {
-  throw new Error('Not implemented');
+  return getCurrentFunctionName.name;
 }
 
 /**
@@ -32,8 +32,8 @@ function getCurrentFunctionName() {
  *   getFunctionBody(hiHello) => "function hiHello() { console.log('hello world'); }"
  *
  */
-function getFunctionBody(/* func */) {
-  throw new Error('Not implemented');
+function getFunctionBody(func) {
+  return func?.toString() || '';
 }
 
 /**
@@ -50,8 +50,17 @@ function getFunctionBody(/* func */) {
  *  ]) => [0, 1, 2]
  *
  */
-function getArgumentsCount(/* funcs */) {
-  throw new Error('Not implemented');
+function getArgumentsCount(funcs) {
+  let count = 0;
+  const result = [];
+  funcs.forEach((el) => {
+    if (typeof el === 'function') {
+      result.push(count);
+      count += 1;
+    }
+  });
+
+  return result;
 }
 
 /**
@@ -70,8 +79,10 @@ function getArgumentsCount(/* funcs */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return function ff(number) {
+    return number ** exponent;
+  };
 }
 
 /**
@@ -87,8 +98,15 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...args) {
+  if (args.length === 0) return null;
+  return function ff(x) {
+    let result = 0;
+    for (let i = 0; i < args.length; i += 1) {
+      result += args[i] * x ** (args.length - 1 - i);
+    }
+    return result;
+  };
 }
 
 /**
@@ -105,8 +123,15 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cache = Object.create(null);
+  return function f(...args) {
+    const key = JSON.stringify(args);
+    if (!(key in cache)) {
+      cache[key] = func(...args);
+    }
+    return cache[key];
+  };
 }
 
 /**
